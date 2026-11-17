@@ -19,23 +19,16 @@ def download_kegg(data_dir):
     """
     Download KEGG data files and save them to data dir.
 
-    Input:
-    data_dir (str) - path to the directory to save the data files
-    
-    Files:
-    - pathway_names
-    - gene_pathway_links
-    - gene_list
+    Parameters:
+        data_dir (str): path to the directory to save the data files
     
     Returns:
-    - Path to the pathway_names file
-    - Path to the gene_pathway_links file
-    - Path to the gene_list file
+        pathway_names: Path to the pathway_names file
+        gene_pathway_links: Path to the gene_pathway_links file
+        gene_list: Path to the gene_list file
 
     Author: Xiaotong Han
     """
-    data_dir = Path(data_dir)
-    data_dir.mkdir(parents=True, exist_ok=True)
 
     pathway_names = data_dir / "pathway_names"
     gene_pathway_links = data_dir / "gene_pathway_links"
@@ -65,11 +58,11 @@ def read_pathways(pathway_names):
     Read the pathway names file and return a dictionary of 
     pathway IDs and names.
     
-    Input:
-    pathway_names (str) - path to the pathway names file
+    Parameters:
+        pathway_names (str): path to the pathway names file
 
-    Return:
-    pathways (dict) - dictionary pathways[pathway_id] = pathway_name.
+    Returns:
+        pathways (dict): dictionary pathways[pathway_id] = pathway_name.
 
     Author: Xiaotong Han
     """
@@ -87,19 +80,19 @@ def read_pathways(pathway_names):
 def parse_symbol(text):
     """
     Parse the gene symbol from the last column of the gene list file.
-    Input: 
-    text (str) - the last column 
-    (e.g. MIR6859-1, hsa-mir-6859-1; hsa-miR-6859-3p)
-    Return: 
-    symbol (str) - the gene symbol (e.g. MIR6859-1)
+    Parameters:
+        text (str): the last column (e.g. MIR6859-1, hsa-mir-6859-1; hsa-miR-6859-3p)
+
+    Returns: 
+        symbol (str): the gene symbol (e.g. MIR6859-1)
 
     Rule of parsing symbol:
-    1. If there is a comma, take what's before the comma. 
-    - e.g. MIR6859-1, hsa-mir-6859-1; hsa-miR-6859-3p -> MIR6859-1
-    2. If there is no comma but semicolon, take what's before the semicolon.
-    - e.g. TRN-GTT26-1; tRNA-Asn -> TRN-GTT26-1
-    3. If there is no comma or semicolon, take the whole string (full name).
-    - e.g. neuroblastoma breakpoint family member 1-like
+        1. If there is a comma, take what's before the comma. 
+        e.g. MIR6859-1, hsa-mir-6859-1; hsa-miR-6859-3p -> MIR6859-1
+        2. If there is no comma but semicolon, take what's before the semicolon.
+        e.g. TRN-GTT26-1; tRNA-Asn -> TRN-GTT26-1
+        3. If there is no comma or semicolon, take the whole string (full name).
+        e.g. neuroblastoma breakpoint family member 1-like
 
     Author: Xiaotong Han
     """
@@ -109,11 +102,11 @@ def parse_symbol(text):
 
 def read_genes(gene_list):
     """
-    Input:
-    gene_list (str) - path to the gene list file
+    Parameters:
+        gene_list (str): path to the gene list file
 
-    Return:
-    genes (dict) - dictionary genes[gene_id] = gene_symbol.
+    Returns:
+        genes (dict): dictionary genes[gene_id] = gene_symbol.
 
     Author: Xiaotong Han
     """
@@ -131,11 +124,11 @@ def read_links(gene_pathway_links):
     """
     Read the gene-pathway links file and convert the file to a pandas data frame.
 
-    Input:
-    gene_pathway_links (str) - path to the gene-pathway links file
+    Parameters:
+        gene_pathway_links (str): path to the gene-pathway links file
 
-    Return:
-    A pandas data frame with columns [GENE_ID, PATHWAY_ID]
+    Returns:
+        links (Pandas DataFrame): columns [GENE_ID, PATHWAY_ID]
 
     The order of rows is as appeared in the gene pathway links file.
     Pathway_ids will start with hsa instead of "path:".
@@ -152,15 +145,13 @@ def merge_kegg(links, pathways, genes):
     """
     Merge the links data frame with pathways and genes dictionaries.
 
-    Inputs
-    links(pandas dataframe): columns = ['GENE_ID', 'PATHWAY_ID']
-    pathways(dictionary): pathways[pathway_id] = pathway_name
-    genes(dictionary): genes[gene_id] = gene_symbol
+    Parameters:
+        links (pandas dataframe): columns = ['GENE_ID', 'PATHWAY_ID']
+        pathways (dictionary): pathways[pathway_id] = pathway_name
+        genes (dictionary): genes[gene_id] = gene_symbol
 
-    Return:
-    merged (pandas dataframe) - the merged data frame containing gene and pathway information.
-    columns: GENE_ID, GENE_SYMBOL, PATHWAY_ID, PATHWAY_NAME
-    The order of rows is as appeared in the links data frame.
+    Returns:
+        merged (pandas dataframe): the merged data frame containing gene and pathway information. columns: GENE_ID, GENE_SYMBOL, PATHWAY_ID, PATHWAY_NAME. The order of rows is as appeared in the links data frame.
 
     Author: Xiaotong Han
     """
