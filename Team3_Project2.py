@@ -1,3 +1,12 @@
+"""
+Project: Project 2, KEGG crosstalk
+Team members: Nina Zhang, David Chang, Xiaotong Han
+How to run it: python Team3_Project2.py DATA_DIR OUT_DIR
+packages to install:
+- pandas
+- matplotlib
+- matplotlib-venn
+"""
 import sys
 import subprocess
 from pathlib import Path
